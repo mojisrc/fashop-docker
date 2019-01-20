@@ -45,11 +45,9 @@ services:
 
   fashop-admin:
     image: ezkuangren/fashop-admin:latest
-    environment:
-      FASHOP_ADMIN_VERSION: "${FASHOP_ADMIN_VERSION}"
     volumes:
-      - ${SOURCE_DIR}:/fashop-admin-code
+      - ${SOURCE_DIR}:/fashop-admin
     tty: true
     privileged: true
-    command: ["node", "/fashop-admin-code/volumes/bin/fashop-admin.js"]
+    command: ["node", "/fashop-admin/volumes/bin/fashop-admin.js"]
 

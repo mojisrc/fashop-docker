@@ -1,55 +1,40 @@
 #!/usr/bin/node
 
-var fashopAdminPath = '/fashop-admin-code/project/fashop-admin';
-var fs= require("fs")
+var execSync = require('child_process').execSync;
 
-fs.exists(fashopAdminPath, function(exists) {
-    if(!exists){
-        var exec = require('child_process').exec;
-        var cmdStr = `git clone https://github.com/mojisrc/fashop-admin.git ${fashopAdminPath}`;
-        console.log('download waiting....'+stderr);
-        exec(cmdStr, function(err,stdout,stderr){
-            if(err) {
-                console.log('download https://github.com/mojisrc/fashop-admin.git fail，reson：'+stderr);
-            } else {
-                console.log("download https://github.com/mojisrc/fashop-admin.git ....");
-                console.log(stdout);
-                console.log("download fashop-admin success");
-            }
-        });
-    }
-});
+try {
+    execSyncS("cnpm -v");
+} catch (ex) {
+    console.log('install cnpm...');
+    execSync("yarn global add cnpm");
+}
+
+try {
+    execSyncS("umi -v");
+} catch (ex){
+    console.log('install umi...');
+    execSync("cnpm install -g umi");
+}
 
 
-fs.exists(`${fashopAdminPath}/node_modules`, function(exists) {
-    if(!exists){
-        var exec = require('child_process').exec;
-        var cmdStr = `cd ${fashopAdminPath} && npm install`;
-        exec(cmdStr, function(err,stdout,stderr){
-            if(err) {
-                console.log('node install，reson：'+stderr);
-            } else {
-                console.log("node install ....");
-                console.log(stdout);
-                console.log("node install success");
-            }
-        });
-    }
-});
+var fashopAdminPath = '/fashop-admin/project/fashop-admin';
+var fs = require("fs")
 
-fs.exists(`${fashopAdminPath}/dist`, function(exists) {
-    if(!exists){
-        var exec = require('child_process').exec;
-        var cmdStr = `cd ${fashopAdminPath} && npm run build`;
-        exec(cmdStr, function(err,stdout,stderr){
-            if(err) {
-                console.log('node build fail，reson：'+stderr);
-            } else {
-                console.log("node  build ....");
-                console.log(stdout);
-                console.log("node build success");
-            }
-        });
-    }
-});
+if(!fs.existsSync(fashopAdminPath)){
+    console.log('git fashop-admin...');
+    execSync(`git clone https://github.com/mojisrc/fashop-admin.git ${fashopAdminPath}`);
+}
+
+
+if(!fs.existsSync(`${fashopAdminPath}/node_modules`)){
+    console.log('fashop-admin install...');
+    execSync(`cd ${fashopAdminPath} && cnpm install`);
+}
+
+if(!fs.existsSync(`${fashopAdminPath}/dist`)){
+    console.log('fashop-admin build ...');
+    console.log('前端代码构建需要5-10分钟，请耐心等待...');
+    execSync(`cd ${fashopAdminPath} && npm run build`);
+}
+
 

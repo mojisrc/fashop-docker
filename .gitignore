@@ -9,5 +9,4 @@
 #fashop docker volumes
 /volumes/mysql
 /volumes/log
-/volumes/admin
 
