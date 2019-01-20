@@ -1,0 +1,13 @@
+# ide
+/.idea/
+/.DS_Store
+/.svn/
+
+# project
+/project
+
+#fashop docker volumes
+/volumes/mysql
+/volumes/log
+/volumes/admin
+
